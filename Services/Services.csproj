@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(ProjectDir)..\MarcusTrentonPersonalSoftware.pub</AssemblyOriginatorKeyFile>
+    <DelaySign>True</DelaySign>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Services</Title>
+    <Authors>Marcus Trenton</Authors>
+    <Description>Helper functions and utilities ranging from parameter checkers to mathematical digraphs.</Description>
+    <Copyright>2023 Marcus Trenton</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>License.md</PackageLicenseFile>
+
+    <CurrentYear>$([System.DateTime]::UtcNow.Year)</CurrentYear>
+    <!-- If somehow this software is in use in 2085 and hit the uint16 limit, just increase the anchor year to beyond 2020.-->
+    <YearsSinceAnchor>$([MSBuild]::Subtract($(CurrentYear), 2020))</YearsSinceAnchor>
+    <YearAsBuildDateNumber>$([MSBuild]::Multiply($(YearsSinceAnchor), 1000))</YearAsBuildDateNumber>
+    <CurrentDayOfYear>$([System.DateTime]::UtcNow.DayOfYear)</CurrentDayOfYear>
+    <!-- The goal is to have an ever increasing build number, not do accurate date math-->
+    <BuildDateNumber>$([MSBuild]::Add($(YearAsBuildDateNumber), $(CurrentDayOfYear)))</BuildDateNumber>
+    <MinutesSinceMidnight>$([System.Convert]::ToUInt32($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</MinutesSinceMidnight>
+
+    <VersionPrefix>1.0.$(BuildDateNumber).$(MinutesSinceMidnight)</VersionPrefix>
+    <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\License.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

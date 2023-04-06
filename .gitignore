@@ -1,0 +1,9 @@
+.vs/
+bin/
+obj/
+NpcGenerator.csproj.user
+*.user
+ExeCache/
+Zipped/
+*.csv#
+*.~lock.*

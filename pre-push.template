@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#Tests must pass to allow push.
+#To use:
+#1) Copy this file into the projects .git\hooks\ folder and rename the file to pre-push (no extension)
+#2) Build Solution
+#3) Replace the paths below to the machine's path to the vstest.console.exe and Tests.dll
+
+remote="$1"
+url="$2"
+
+${PWD}"\BuildAndRunTests.bat" #The bat file is not in the system path, so its full path must be specified.
