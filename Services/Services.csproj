@@ -14,9 +14,11 @@
     <Copyright>2023 Marcus Trenton</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>License.md</PackageLicenseFile>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/MarcusTrenton-Personal/Services.git</RepositoryUrl>
 
     <CurrentYear>$([System.DateTime]::UtcNow.Year)</CurrentYear>
-    <!-- If somehow this software is in use in 2085 and hit the uint16 limit, just increase the anchor year to beyond 2020.-->
+    <!-- If somehow this software is in use in 2085 and hit the uint16 limit, just increase the anchor year beyond 2020.-->
     <YearsSinceAnchor>$([MSBuild]::Subtract($(CurrentYear), 2020))</YearsSinceAnchor>
     <YearAsBuildDateNumber>$([MSBuild]::Multiply($(YearsSinceAnchor), 1000))</YearAsBuildDateNumber>
     <CurrentDayOfYear>$([System.DateTime]::UtcNow.DayOfYear)</CurrentDayOfYear>
@@ -61,8 +63,8 @@
   </Target>
 
   <Target Name="SignDll" AfterTargets="Publish">
-    <Message Text="Signing exe" Importance="high" />
-    <Exec Command="signtool sign /f %SigningKey% /p %SigningKeyPassword% /fd SHA1 /du https://github.com/MarcusTrenton-Personal/NpcGenerator /d NpcGenerator &quot;$(PublishDir)$(TargetName).exe&quot;" ConsoleToMsBuild="true" />
+    <Message Text="Signing dll" Importance="high" />
+    <Exec Command="signtool sign /f %SigningKey% /p %SigningKeyPassword% /fd SHA1 /du https://github.com/MarcusTrenton-Personal/Services /d Services &quot;$(PublishDir)$(TargetName).dll&quot;" ConsoleToMsBuild="true" />
   </Target>
 
 </Project>
