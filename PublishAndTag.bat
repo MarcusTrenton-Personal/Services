@@ -12,7 +12,7 @@ dotnet msbuild -p:Configuration=Release
 if NOT %errorlevel% == 0 exit /B %errorlevel%
 cd ..
 REM Sadly batch files cannot directly assign the output of a command to a variable. This is an industry-standard work-around hack.
-for /f %%i in ('FileVersionOf\bin\Release\net7.0\ExeVersion Services\bin\Release\net7.0\Services.dll') do set VERSION=%%i
+for /f %%i in ('FileVersionOf\bin\Release\net7.0\FileVersionOf.exe Services\bin\Release\net7.0\Services.dll') do set VERSION=%%i
 
 echo Pushing a Git tag with the version number v%VERSION%
 git tag v%VERSION%
