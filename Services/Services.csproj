@@ -39,4 +39,30 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <LegalDocs Include="..\*.rtf;..\*.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <Visible>True</Visible>
+    </LegalDocs>
+  </ItemGroup>
+
+  <!-- ######## Build Events ######## -->
+
+  <Target Name="CopyDataFilesAfterBuild" AfterTargets="Build">
+    <Copy SourceFiles="@(LegalDocs)" DestinationFolder="$(OutDir)" />
+  </Target>
+
+  <!-- ######## Publish Events ######## -->
+
+  <Target Name="TestBeforePublish" BeforeTargets="Publish">
+    <Message Text="Running tests before allowing publishing" Importance="high" />
+    <Exec Command="$(ProjectDir)..\BuildAndRunTests.bat" WorkingDirectory="$(ProjectDir).." ConsoleToMsBuild="true" />
+  </Target>
+
+  <Target Name="SignDll" AfterTargets="Publish">
+    <Message Text="Signing exe" Importance="high" />
+    <Exec Command="signtool sign /f %SigningKey% /p %SigningKeyPassword% /fd SHA1 /du https://github.com/MarcusTrenton-Personal/NpcGenerator /d NpcGenerator &quot;$(PublishDir)$(TargetName).exe&quot;" ConsoleToMsBuild="true" />
+  </Target>
+
 </Project>

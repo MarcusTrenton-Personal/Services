@@ -6,15 +6,13 @@ msbuild "Services\Services.csproj" -target:publish -property:PublishProfile=\Ser
 if NOT %errorlevel% == 0 exit /B %errorlevel%
 
 echo Extracting version number from the Local build
-REM The two builds could have been built with different minute-granular timestamps, making their versions different.
-REM Rather than recreate its complex, env-variable-based path, use the cached exe, as it will always be the last built exe.
-REM Sadly batch files cannot directly assign the output of a command to a variable. This is an industry-standard work-around hack.
-cd ExeVersion
+cd FileVersionOf
 dotnet restore
 dotnet msbuild -p:Configuration=Release
 if NOT %errorlevel% == 0 exit /B %errorlevel%
 cd ..
-for /f %%i in ('ExeVersion\bin\Release\net7.0\ExeVersion Services\bin\Release\net7.0\Services.dll') do set VERSION=%%i
+REM Sadly batch files cannot directly assign the output of a command to a variable. This is an industry-standard work-around hack.
+for /f %%i in ('FileVersionOf\bin\Release\net7.0\ExeVersion Services\bin\Release\net7.0\Services.dll') do set VERSION=%%i
 
 echo Pushing a Git tag with the version number v%VERSION%
 git tag v%VERSION%
